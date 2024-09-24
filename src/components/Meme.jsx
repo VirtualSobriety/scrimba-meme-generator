@@ -9,20 +9,35 @@ export default function Meme() {
 
   const [allMemes, setAllMemes] = useState("http://i.imgflip.com/3si4.jpg");
 
+  // ***THIS IS THE OG USE EFFECT...IT WORKS...JUST UNCOMMENT THIS AND YOURE GOLDEN***
   useEffect(() => {
     fetch("https://api.imgflip.com/get_memes")
       .then((res) => res.json())
       .then((data) => setAllMemes(data));
+    // .then(console.log(allMemes.data.memes[1].box_count));
   }, []);
 
+  // useEffect(() => {
+  //   fetch("https://api.imgflip.com/caption_image", {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       name: "User 1",
+  //     }),
+  //   });
+  // });
+
   function getMemeImage() {
+    console.log("fart");
     let randomNumber = Math.floor(Math.random() * 100);
     let memesArray = allMemes.data.memes[randomNumber].url;
     setMeme((prevData) => {
-      return { ...prevData, randomImage: memesArray };
+      // for (let i = 0; i < allMemes.data.memes.length; i++)
+      if (allMemes.data.memes[randomNumber].box_count === 2)
+        return { ...prevData, randomImage: memesArray };
+      else return { ...prevData, randomImage: "http://i.imgflip.com/3si4.jpg" };
+      // return { ...prevData, randomImage: memesArray };
     });
   }
-
   function handleChange(event) {
     const { name, value } = event.target;
     setMeme((prevData) => {
